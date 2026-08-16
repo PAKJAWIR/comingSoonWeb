@@ -1,36 +1,61 @@
+import { useEffect, useState } from "react";
 import "./index.css";
 import Grainient from "./animation/Grainient";
 
 function App() {
+  const [webGL2Supported, setWebGL2Supported] = useState(null);
+
+  useEffect(() => {
+    const checkWebGL = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        const gl = canvas.getContext("webgl2");
+
+        setWebGL2Supported(Boolean(gl));
+
+        gl?.getExtension("WEBGL_lose_context")?.loseContext();
+      } catch {
+        setWebGL2Supported(false);
+      }
+    };
+
+    requestAnimationFrame(checkWebGL);
+  }, []);
+
   return (
-    <div className="relative h-188 md:h-[100svh] flex justify-center items-center min-h-svh w-screen overflow-hidden bg-warna2/22 p-4 md:p-6">
-      {/* Animated Background */}
-      <div className="absolute inset-0 z-0">
-        <Grainient
-          color1="#efefef"
-          color2="#a0a0a0"
-          color3="#333333"
-          timeSpeed={0.25}
-          colorBalance={0}
-          warpStrength={1}
-          warpFrequency={5}
-          warpSpeed={2}
-          warpAmplitude={50}
-          blendAngle={0}
-          blendSoftness={0.05}
-          rotationAmount={500}
-          noiseScale={2}
-          grainAmount={0.1}
-          grainScale={2}
-          grainAnimated={false}
-          contrast={1.5}
-          gamma={1}
-          saturation={1}
-          centerX={0}
-          centerY={0}
-          zoom={0.9}
-        />
-      </div>
+    <div className="relative h-188 md:h-svh flex justify-center items-center min-h-svh w-screen overflow-hidden bg-warna2/22 p-4 md:p-6">
+      {/* Fallback Background */}
+      <div className="absolute inset-0 z-0 bg-warna2/44" />
+
+      {/* Grainient */}
+      {webGL2Supported === true && (
+        <div className="absolute inset-0 z-0">
+          <Grainient
+            color1="#efefef"
+            color2="#a0a0a0"
+            color3="#333333"
+            timeSpeed={0.25}
+            colorBalance={0}
+            warpStrength={1}
+            warpFrequency={5}
+            warpSpeed={2}
+            warpAmplitude={50}
+            blendAngle={0}
+            blendSoftness={0.05}
+            rotationAmount={500}
+            noiseScale={2}
+            grainAmount={0.1}
+            grainScale={2}
+            grainAnimated={false}
+            contrast={1.5}
+            gamma={1}
+            saturation={1}
+            centerX={0}
+            centerY={0}
+            zoom={0.9}
+          />
+        </div>
+      )}
 
       {/* Glass Card */}
       <div className="relative z-10 flex flex-col h-180 md:h-full w-full rounded-xl p-2 md:p-6 bg-warna1/58 backdrop-blur-xl border border-warna1/40">
@@ -55,12 +80,10 @@ function App() {
           <div className="flex flex-col items-start justify-end h-full w-full">
             <p className="text-warna2 text-sm md:text-lg font-semibold">contact me</p>
 
-            <div className="flex flex-col h-fit w-fit">
-              <a href="mailto:muhammadnuradlialghifari@gmail.com" className="flex flex-col h-fit w-fit">
-                <h1 className="text-warna2 text-xl md:text-2xl">nuradli@gmail.com</h1>
-                <span className="h-0.5 w-full bg-warna2" />
-              </a>
-            </div>
+            <a href="mailto:muhammadnuradlialghifari@gmail.com" className="flex flex-col h-fit w-fit">
+              <h1 className="text-warna2 text-xl md:text-2xl">nuradli@gmail.com</h1>
+              <span className="h-0.5 w-full bg-warna2" />
+            </a>
           </div>
 
           <div className="flex flex-col md:flex-row justify-end items-start md:items-end h-fit md:h-full w-full gap-2 md:gap-6 leading-none">
