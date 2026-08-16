@@ -183,7 +183,7 @@ html.lenis body {
    ========================================================================== */
 @font-face {
   font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans-VariableFont_wght.woff2") format("woff2");
+  src: url("/assets/PlusJakartaSans-VariableFont_wght.woff2") format("woff2");
   font-weight: 100 800;
   font-style: normal;
   font-display: swap;
